@@ -92,3 +92,52 @@ water-monitoring-system/
 - 📡 終端機即時監控
 - 🖥️ 簡潔文字介面
 - 🔄 自動資料更新
+
+## 部署到 GitHub Pages
+
+### Fork 專案
+
+1. 點擊本專案頁面右上角的 **Fork** 按鈕
+2. 選擇要 Fork 到的帳號或組織
+3. 等待 Fork 完成
+
+### 啟用 GitHub Pages
+
+1. 進入你 Fork 的專案頁面
+2. 點擊 **Settings** 標籤
+3. 在左側選單找到 **Pages**
+4. 在 **Source** 下拉選單中選擇 **Deploy from a branch**
+5. 在 **Branch** 下拉選單中選擇 **main** (或 master)
+6. 資料夾選擇 **/ (root)**
+7. 點擊 **Save**
+8. 等待幾分鐘後，你的網站會部署在：`https://[你的GitHub用戶名].github.io/water-monitoring-system/`
+
+### 自訂 API 端點
+
+如果你想使用自己的感測器數據：
+
+1. 開啟 `app.js` 檔案
+2. 找到第 1 行的 `API_URL` 變數
+3. 將網址替換為你自己的 API 端點：
+   ```javascript
+   const API_URL = '你的API網址';
+   ```
+4. 確保你的 API 返回相同格式的 JSON 數據：
+   ```json
+   {
+     "status": "success",
+     "data": [{
+       "Timestamp": "2024-01-01T00:00:00.000Z",
+       "Soil1 (%)": 45,
+       "Soil2 (%)": 38,
+       "Water (%)": 75
+     }]
+   }
+   ```
+
+### 注意事項
+
+- GitHub Pages 是免費的靜態網站託管服務
+- 部署後可能需要等待 5-10 分鐘才能生效
+- 如果看到 404 錯誤，請檢查是否已正確啟用 GitHub Pages
+- 記得將專案設為 Public (公開) 才能使用免費的 GitHub Pages
