@@ -2,6 +2,7 @@ const API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_k
 
 // DOM 元素
 const elements = {
+    loader: document.getElementById('loader'),
     updateTime: document.getElementById('updateTime'),
     soil1Value: document.getElementById('soil1Value'),
     soil1Status: document.getElementById('soil1Status'),
@@ -149,6 +150,12 @@ async function fetchData() {
         if (result.status === 'success' && result.data.length > 0) {
             updateDisplay(result.data[0]);
             elements.connectionStatus.innerHTML = '🟢 連線正常';
+            // 第一次載入成功後隱藏載入畫面
+            if (elements.loader && !elements.loader.classList.contains('hidden')) {
+                setTimeout(() => {
+                    elements.loader.classList.add('hidden');
+                }, 500);
+            }
         } else {
             throw new Error('無效的資料格式');
         }
