@@ -16,10 +16,31 @@
     <div class="container">
         <header>
             <h1>🌿 水資源監控系統</h1>
-            <div class="update-time" id="updateTime">載入中...</div>
         </header>
 
         <main>
+            <!-- 更新時間區塊 -->
+            <div class="update-info-card">
+                <div class="update-info-content">
+                    <div class="update-info-left">
+                        <span class="update-label">最後更新時間</span>
+                        <span class="update-timestamp" id="updateTime">載入中...</span>
+                    </div>
+                    <div class="update-info-right">
+                        <div class="countdown-circle">
+                            <svg width="60" height="60">
+                                <circle cx="30" cy="30" r="26" stroke="#334155" stroke-width="4" fill="none"></circle>
+                                <circle id="countdown-progress" cx="30" cy="30" r="26" stroke="#10b981" stroke-width="4" fill="none"
+                                    stroke-dasharray="163.36" stroke-dashoffset="163.36"
+                                    transform="rotate(-90 30 30)"></circle>
+                            </svg>
+                            <div class="countdown-text" id="countdown">10</div>
+                        </div>
+                        <span class="update-next">下次更新</span>
+                    </div>
+                </div>
+            </div>
+
             <section class="sensor-grid">
                 <!-- 土壤濕度區 -->
                 <div class="sensor-section">

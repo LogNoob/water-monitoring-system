@@ -105,6 +105,100 @@ main {
     width: 100%;
 }
 
+/* Update Info Card */
+.update-info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    animation: fadeIn 0.6s ease-out;
+}
+
+.update-info-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.update-info-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.update-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.update-timestamp {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.update-timestamp::before {
+    content: '🕐';
+    font-size: 1.25rem;
+}
+
+.update-info-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.countdown-circle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.3));
+}
+
+.countdown-circle svg {
+    transform: rotate(-90deg);
+}
+
+.countdown-circle circle {
+    transition: stroke-dashoffset 1s linear;
+}
+
+.countdown-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.update-next {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 倒數計時動畫 */
+@keyframes pulseCountdown {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.countdown-circle:hover {
+    animation: pulseCountdown 1s ease-in-out infinite;
+}
+
 .sensor-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -498,6 +592,20 @@ footer {
     
     main {
         padding: 1rem;
+    }
+    
+    .update-info-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .update-timestamp {
+        font-size: 1.25rem;
+    }
+    
+    .update-info-right {
+        flex-direction: column;
+        gap: 0.5rem;
     }
 }
 

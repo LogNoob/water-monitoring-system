@@ -4,6 +4,8 @@ const API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_k
 const elements = {
     loader: document.getElementById('loader'),
     updateTime: document.getElementById('updateTime'),
+    countdown: document.getElementById('countdown'),
+    countdownProgress: document.getElementById('countdown-progress'),
     soil1Value: document.getElementById('soil1Value'),
     soil1Status: document.getElementById('soil1Status'),
     soil1Progress: document.getElementById('soil1Progress'),
@@ -20,6 +22,10 @@ const elements = {
     connectionStatus: document.getElementById('connectionStatus'),
     lastUpdate: document.getElementById('lastUpdate')
 };
+
+// 倒數計時相關變數
+let countdownInterval;
+let currentCountdown = 10;
 
 // 格式化時間
 function formatTimestamp(timestamp) {
@@ -156,6 +162,8 @@ async function fetchData() {
                     elements.loader.classList.add('hidden');
                 }, 500);
             }
+            // 重置倒數計時
+            startCountdown();
         } else {
             throw new Error('無效的資料格式');
         }
@@ -171,13 +179,48 @@ async function fetchData() {
     }
 }
 
+// 開始倒數計時
+function startCountdown() {
+    currentCountdown = 10;
+    updateCountdownDisplay();
+    
+    // 清除舊的計時器
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+    
+    // 開始新的倒數
+    countdownInterval = setInterval(() => {
+        currentCountdown--;
+        updateCountdownDisplay();
+        
+        if (currentCountdown <= 0) {
+            currentCountdown = 10;
+            fetchData();
+        }
+    }, 1000);
+}
+
+// 更新倒數顯示
+function updateCountdownDisplay() {
+    if (elements.countdown) {
+        elements.countdown.textContent = currentCountdown;
+    }
+    
+    if (elements.countdownProgress) {
+        const circumference = 2 * Math.PI * 26; // 圓周長
+        const offset = circumference - (currentCountdown / 10) * circumference;
+        elements.countdownProgress.style.strokeDashoffset = offset;
+    }
+}
+
 // 初始化
 function init() {
     // 立即取得第一次資料
     fetchData();
     
-    // 每 10 秒更新一次
-    setInterval(fetchData, 10000);
+    // 開始倒數計時
+    startCountdown();
 }
 
 // 當頁面載入完成後開始
