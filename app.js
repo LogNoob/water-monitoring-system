@@ -25,7 +25,7 @@ const elements = {
 
 // 倒數計時相關變數
 let countdownInterval;
-let currentCountdown = 10;
+let currentCountdown = 11;
 
 // 格式化時間
 function formatTimestamp(timestamp) {
@@ -181,7 +181,7 @@ async function fetchData() {
 
 // 開始倒數計時
 function startCountdown() {
-    currentCountdown = 10;
+    currentCountdown = 11;
     updateCountdownDisplay();
     
     // 清除舊的計時器
@@ -195,7 +195,7 @@ function startCountdown() {
         updateCountdownDisplay();
         
         if (currentCountdown <= 0) {
-            currentCountdown = 10;
+            currentCountdown = 11;
             fetchData();
         }
     }, 1000);
@@ -204,12 +204,15 @@ function startCountdown() {
 // 更新倒數顯示
 function updateCountdownDisplay() {
     if (elements.countdown) {
-        elements.countdown.textContent = currentCountdown;
+        // 顯示時從 10 開始倒數，但實際是 11 秒循環
+        const displayCount = currentCountdown > 10 ? 10 : currentCountdown;
+        elements.countdown.textContent = displayCount;
     }
     
     if (elements.countdownProgress) {
         const circumference = 2 * Math.PI * 26; // 圓周長
-        const offset = circumference - (currentCountdown / 10) * circumference;
+        const displayCount = currentCountdown > 10 ? 10 : currentCountdown;
+        const offset = circumference - (displayCount / 10) * circumference;
         elements.countdownProgress.style.strokeDashoffset = offset;
     }
 }
