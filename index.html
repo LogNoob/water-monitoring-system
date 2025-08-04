@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水資源監控系統</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌿 水資源監控系統</h1>
+            <div class="update-time" id="updateTime">載入中...</div>
+        </header>
+
+        <main>
+            <section class="sensor-grid">
+                <!-- 土壤濕度區 -->
+                <div class="sensor-section">
+                    <h2>🌱 土壤濕度</h2>
+                    <div class="sensor-cards">
+                        <div class="sensor-card" id="soil1Card">
+                            <h3>土壤感測器 1</h3>
+                            <div class="sensor-value">
+                                <span class="value" id="soil1Value">--</span>
+                                <span class="unit">%</span>
+                            </div>
+                            <div class="status-indicator" id="soil1Status">
+                                <span class="status-icon">--</span>
+                                <span class="status-text">載入中</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="soil1Progress"></div>
+                            </div>
+                        </div>
+
+                        <div class="sensor-card" id="soil2Card">
+                            <h3>土壤感測器 2</h3>
+                            <div class="sensor-value">
+                                <span class="value" id="soil2Value">--</span>
+                                <span class="unit">%</span>
+                            </div>
+                            <div class="status-indicator" id="soil2Status">
+                                <span class="status-icon">--</span>
+                                <span class="status-text">載入中</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="soil2Progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 水位區 -->
+                <div class="sensor-section">
+                    <h2>💧 水箱水位</h2>
+                    <div class="sensor-cards">
+                        <div class="sensor-card large" id="waterCard">
+                            <h3>主水箱</h3>
+                            <div class="sensor-value">
+                                <span class="value" id="waterValue">--</span>
+                                <span class="unit">%</span>
+                            </div>
+                            <div class="status-indicator" id="waterStatus">
+                                <span class="status-icon">--</span>
+                                <span class="status-text">載入中</span>
+                            </div>
+                            <div class="water-tank">
+                                <div class="water-level" id="waterLevel"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 警報區 -->
+            <section class="alerts-section">
+                <h2>🚨 警報狀態</h2>
+                <div class="alerts-container" id="alertsContainer">
+                    <div class="no-alerts">載入中...</div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="status-bar">
+                <span class="status-item">🔄 每 10 秒自動更新</span>
+                <span class="status-item" id="connectionStatus">🟢 連線正常</span>
+                <span class="status-item" id="lastUpdate">最後更新: --</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
