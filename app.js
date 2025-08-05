@@ -1,6 +1,6 @@
 const API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLjP-aKTJZOWlfMlf3MN8Q-ZEXYYpb_JPs3pfaath3CJgSnZQTq7GB18tHoYIHyTDX2x2P8kzU2s2HmbraAdQeow4vgo_0BH2vryVdEj3w77kA7FZMLJ5zwhZ1bZMWLmWhtWMl1N6ROC7WMbo91f5Gec8Ov3tXl8CU1M-dq6f6mbJKIvnHg1_QJPA0gsnPmASBEgTLuD-QY-n_q-YbbIclg1U0EVI0BaOHbe5uT_NlnKASr_Sz-di3DCl81peKGsmk0uoaDvuefAfHiz-qfw89dMgiHbraT89wpUaYC6JEwaJ7LXbS448vVtkhuRzQ&lib=MCC5bLc50ZFODe96WpOUGNhPhwEhFYfKz';
 
-// DOM 元素
+// DOM Elements
 const elements = {
     loader: document.getElementById('loader'),
     updateTime: document.getElementById('updateTime'),
@@ -23,15 +23,16 @@ const elements = {
     lastUpdate: document.getElementById('lastUpdate')
 };
 
-// 倒數計時相關變數
+// Countdown related variables
 let countdownInterval;
 let currentCountdown = 11;
 
-// 格式化時間
+// Format timestamp
 function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
-    return date.toLocaleString('zh-TW', { 
-        timeZone: 'Asia/Taipei',
+    // Changed locale from 'zh-TW' to 'en-US' for English format
+    return date.toLocaleString('en-US', {
+        timeZone: 'Asia/Taipei', // Keep the timezone correct
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
@@ -41,55 +42,55 @@ function formatTimestamp(timestamp) {
     });
 }
 
-// 取得狀態資訊
+// Get status information
 function getStatus(value, type) {
     if (type === 'soil') {
-        if (value >= 40) return { icon: '✅', text: '正常', class: 'status-normal' };
-        if (value >= 20) return { icon: '⚠️', text: '警告', class: 'status-warning' };
-        return { icon: '🚨', text: '危險', class: 'status-critical' };
-    } else {
-        if (value >= 70) return { icon: '✅', text: '正常', class: 'status-normal' };
-        if (value >= 30) return { icon: '⚠️', text: '警告', class: 'status-warning' };
-        return { icon: '🚨', text: '危險', class: 'status-critical' };
+        if (value >= 40) return { icon: '✅', text: 'Normal', class: 'status-normal' };
+        if (value >= 20) return { icon: '⚠️', text: 'Warning', class: 'status-warning' };
+        return { icon: '🚨', text: 'Critical', class: 'status-critical' };
+    } else { // water
+        if (value >= 70) return { icon: '✅', text: 'Normal', class: 'status-normal' };
+        if (value >= 30) return { icon: '⚠️', text: 'Warning', class: 'status-warning' };
+        return { icon: '🚨', text: 'Critical', class: 'status-critical' };
     }
 }
 
-// 更新感測器卡片
+// Update a sensor card
 function updateSensorCard(cardElement, valueElement, statusElement, progressElement, value, type) {
     const status = getStatus(value, type);
-    
+
     valueElement.textContent = value;
     statusElement.innerHTML = `
         <span class="status-icon">${status.icon}</span>
         <span class="status-text ${status.class}">${status.text}</span>
     `;
-    
+
     progressElement.style.width = `${value}%`;
-    progressElement.className = 'progress-fill';
+    progressElement.className = 'progress-fill'; // Reset classes first
     if (status.class === 'status-warning') progressElement.classList.add('warning');
     if (status.class === 'status-critical') progressElement.classList.add('critical');
-    
-    // 移除所有狀態類別
+
+    // Remove all status classes from the card and add the current one
     cardElement.classList.remove('status-normal', 'status-warning', 'status-critical');
     cardElement.classList.add(status.class);
 }
 
-// 更新警報
+// Update alerts section
 function updateAlerts(data) {
     const alerts = [];
-    
+
     if (data['Soil1 (%)'] < 20) {
-        alerts.push({ type: 'critical', icon: '🚨', text: '土壤感測器 1 濕度過低' });
+        alerts.push({ type: 'critical', icon: '🚨', text: 'Soil Sensor 1 moisture is too low' });
     }
     if (data['Soil2 (%)'] < 20) {
-        alerts.push({ type: 'critical', icon: '🚨', text: '土壤感測器 2 濕度過低' });
+        alerts.push({ type: 'critical', icon: '🚨', text: 'Soil Sensor 2 moisture is too low' });
     }
     if (data['Water (%)'] < 30) {
-        alerts.push({ type: 'critical', icon: '🚨', text: '水箱水位過低' });
+        alerts.push({ type: 'critical', icon: '🚨', text: 'Water tank level is too low' });
     }
-    
+
     if (alerts.length === 0) {
-        elements.alertsContainer.innerHTML = '<div class="no-alerts">✅ 無警報</div>';
+        elements.alertsContainer.innerHTML = '<div class="no-alerts">✅ No Alerts</div>';
     } else {
         elements.alertsContainer.innerHTML = alerts.map(alert => `
             <div class="alert-item ${alert.type}">
@@ -100,13 +101,14 @@ function updateAlerts(data) {
     }
 }
 
-// 更新顯示
+// Update the entire display with new data
 function updateDisplay(data) {
-    // 更新時間
+    // Update time
     elements.updateTime.textContent = formatTimestamp(data.Timestamp);
-    elements.lastUpdate.textContent = `最後更新: ${new Date().toLocaleTimeString('zh-TW')}`;
-    
-    // 更新土壤濕度
+    // Also update the footer timestamp with English format
+    elements.lastUpdate.textContent = `Last update: ${new Date().toLocaleTimeString('en-US')}`;
+
+    // Update soil moisture sensors
     updateSensorCard(
         elements.soil1Card,
         elements.soil1Value,
@@ -115,7 +117,7 @@ function updateDisplay(data) {
         data['Soil1 (%)'],
         'soil'
     );
-    
+
     updateSensorCard(
         elements.soil2Card,
         elements.soil2Value,
@@ -124,11 +126,11 @@ function updateDisplay(data) {
         data['Soil2 (%)'],
         'soil'
     );
-    
-    // 更新水位
+
+    // Update water level
     const waterValue = data['Water (%)'];
     const waterStatus = getStatus(waterValue, 'water');
-    
+
     elements.waterValue.textContent = waterValue;
     elements.waterStatus.innerHTML = `
         <span class="status-icon">${waterStatus.icon}</span>
@@ -136,96 +138,93 @@ function updateDisplay(data) {
     `;
 
     elements.waterLevel.style.height = `${waterValue}%`;
-    elements.waterCard.dataset.status = waterStatus.class; // 設置 data-status 屬性
+    elements.waterCard.dataset.status = waterStatus.class; // Set data-status attribute
     elements.waterCard.classList.remove('status-normal', 'status-warning', 'status-critical');
     elements.waterCard.classList.add(waterStatus.class);
-    
-    // 更新警報
+
+    // Update alerts
     updateAlerts(data);
 }
 
-// 取得資料
+// Fetch data from the API
 async function fetchData() {
     try {
         const response = await fetch(API_URL);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const result = await response.json();
-        
+
         if (result.status === 'success' && result.data.length > 0) {
             updateDisplay(result.data[0]);
-            elements.connectionStatus.innerHTML = '🟢 連線正常';
-            // 第一次載入成功後隱藏載入畫面
+            elements.connectionStatus.innerHTML = '🟢 Connection Normal';
+            // Hide loader after first successful load
             if (elements.loader && !elements.loader.classList.contains('hidden')) {
                 setTimeout(() => {
                     elements.loader.classList.add('hidden');
                 }, 500);
             }
-            // 重置倒數計時
+            // Reset countdown on successful fetch
             startCountdown();
         } else {
-            throw new Error('無效的資料格式');
+            throw new Error('Invalid data format');
         }
     } catch (error) {
         console.error('Error fetching data:', error);
-        elements.connectionStatus.innerHTML = '🔴 連線錯誤';
+        elements.connectionStatus.innerHTML = '🔴 Connection Error';
         elements.alertsContainer.innerHTML = `
             <div class="alert-item critical">
                 <span class="alert-icon">❌</span>
-                <span class="alert-text">無法取得資料: ${error.message}</span>
+                <span class="alert-text">Could not fetch data: ${error.message}</span>
             </div>
         `;
     }
 }
 
-// 開始倒數計時
+// Start the countdown timer
 function startCountdown() {
     currentCountdown = 11;
     updateCountdownDisplay();
-    
-    // 清除舊的計時器
+
+    // Clear the old interval if it exists
     if (countdownInterval) {
         clearInterval(countdownInterval);
     }
-    
-    // 開始新的倒數
+
+    // Start a new interval
     countdownInterval = setInterval(() => {
         currentCountdown--;
         updateCountdownDisplay();
-        
+
         if (currentCountdown <= 0) {
-            currentCountdown = 11;
+            currentCountdown = 11; // Reset for the next fetch cycle
             fetchData();
         }
     }, 1000);
 }
 
-// 更新倒數顯示
+// Update the countdown visual display
 function updateCountdownDisplay() {
     if (elements.countdown) {
-        // 顯示時從 10 開始倒數，但實際是 11 秒循環
+        // Display counts down from 10, but the cycle is actually 11 seconds
         const displayCount = currentCountdown > 10 ? 10 : currentCountdown;
         elements.countdown.textContent = displayCount;
     }
-    
+
     if (elements.countdownProgress) {
-        const circumference = 2 * Math.PI * 26; // 圓周長
+        const circumference = 2 * Math.PI * 26; // The circle's circumference
         const displayCount = currentCountdown > 10 ? 10 : currentCountdown;
         const offset = circumference - (displayCount / 10) * circumference;
         elements.countdownProgress.style.strokeDashoffset = offset;
     }
 }
 
-// 初始化
+// Initialize the application
 function init() {
-    // 立即取得第一次資料
+    // Fetch initial data immediately
     fetchData();
-    
-    // 開始倒數計時
-    startCountdown();
 }
 
-// 當頁面載入完成後開始
+// Start when the page content is loaded
 document.addEventListener('DOMContentLoaded', init);
