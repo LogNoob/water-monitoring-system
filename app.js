@@ -135,7 +135,7 @@ function updateDisplay(data) {
         <span class="status-text ${waterStatus.class}">${waterStatus.text}</span>
     `;
     
-    elements.waterLevel.style.height = `$100%-{waterValue}%`;
+    elements.waterLevel.style.height = `${100-waterValue}%`;
     elements.waterCard.classList.remove('status-normal', 'status-warning', 'status-critical');
     elements.waterCard.classList.add(waterStatus.class);
     
