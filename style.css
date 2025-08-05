@@ -411,7 +411,7 @@ main {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50%;
+    height: {waterValue}%;
     background: linear-gradient(to top, rgba(33, 150, 243, 0.9), rgba(100, 181, 246, 0.7));
 }
 
@@ -431,6 +431,16 @@ main {
     0% { transform: translateX(-50%) translateY(0); }
     50% { transform: translateX(0%) translateY(-2px); }
     100% { transform: translateX(50%) translateY(0); }
+}
+
+/* 水流動效果 */
+@keyframes wave {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
 }
 
 .alerts-section {
