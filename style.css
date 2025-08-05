@@ -717,57 +717,55 @@ footer {
     font-size: 1.1rem;
     animation: pulse 1.5s ease-in-out infinite;
 }
-/* 強制版本 - 使用 !important 確保樣式生效 */
+/* 綠色邊框水槽樣式 - 符合物理規則 */
 .water-tank {
-    width: 240px !important;
-    height: 320px !important;
-    border: 4px solid #333 !important;
-    border-radius: 24px !important;
+    width: 200px !important;
+    height: 280px !important;
+    border: 3px solid #10b981 !important; /* 綠色邊框 */
+    border-radius: 16px !important;
     margin: 2rem auto !important;
     position: relative !important;
     overflow: hidden !important;
-    background: linear-gradient(180deg, #000000 0%, #1a1a1a 50%, #000000 100%) !important;
+    background: #1e293b !important; /* 深灰色背景 */
     box-shadow: 
-        inset 0 0 30px rgba(0, 0, 0, 0.8),
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+        0 4px 20px rgba(16, 185, 129, 0.2),
+        inset 0 0 20px rgba(0, 0, 0, 0.3) !important;
     display: flex !important;
-    align-items: flex-end !important;
+    align-items: flex-end !important; /* 關鍵：讓水從底部開始 */
 }
 
 .water-level {
     width: 100% !important;
     background: linear-gradient(180deg, 
-        #1e90ff 0%,     
-        #0080ff 25%,    
-        #0066cc 50%,    
-        #004499 75%,    
-        #003366 100%    
+        #60a5fa 0%,     /* 頂部淺藍 */
+        #3b82f6 30%,    /* 藍色 */
+        #2563eb 60%,    /* 深藍 */
+        #1d4ed8 100%    /* 底部最深藍 */
     ) !important;
     transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
     position: relative !important;
     overflow: hidden !important;
-    border-radius: 0 0 20px 20px !important;
+    border-radius: 0 0 13px 13px !important; /* 配合水槽的圓角 */
     box-shadow: 
-        0 -4px 20px rgba(30, 144, 255, 0.3),
-        inset 0 0 20px rgba(255, 255, 255, 0.1) !important;
+        0 -2px 15px rgba(59, 130, 246, 0.3),
+        inset 0 0 15px rgba(255, 255, 255, 0.1) !important;
 }
 
 .water-level::before {
     content: '' !important;
     position: absolute !important;
-    top: -4px !important;
+    top: -3px !important;
     left: -50% !important;
     width: 200% !important;
-    height: 8px !important;
+    height: 6px !important;
     background: linear-gradient(90deg, 
         transparent, 
-        rgba(135, 206, 250, 0.8), 
+        rgba(147, 197, 253, 0.8), 
         rgba(255, 255, 255, 0.6), 
-        rgba(135, 206, 250, 0.8), 
+        rgba(147, 197, 253, 0.8), 
         transparent
     ) !important;
-    animation: waterWave 4s linear infinite !important;
+    animation: waterWave 3s linear infinite !important;
     border-radius: 50px !important;
 }
 
@@ -782,21 +780,59 @@ footer {
         transparent 0%, 
         rgba(255, 255, 255, 0.1) 25%, 
         transparent 50%, 
-        rgba(255, 255, 255, 0.1) 75%, 
+        rgba(255, 255, 255, 0.05) 75%, 
         transparent 100%
     ) !important;
-    animation: waterShimmer 3s ease-in-out infinite !important;
+    animation: waterShimmer 4s ease-in-out infinite !important;
+}
+
+/* 水槽在不同狀態下的邊框顏色變化 */
+.sensor-card.status-normal .water-tank {
+    border-color: #10b981 !important; /* 正常 - 綠色 */
+    box-shadow: 
+        0 4px 20px rgba(16, 185, 129, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.sensor-card.status-warning .water-tank {
+    border-color: #f59e0b !important; /* 警告 - 黃色 */
+    box-shadow: 
+        0 4px 20px rgba(245, 158, 11, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.sensor-card.status-critical .water-tank {
+    border-color: #ef4444 !important; /* 危險 - 紅色 */
+    box-shadow: 
+        0 4px 20px rgba(239, 68, 68, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.3) !important;
+    animation: criticalGlow 2s ease-in-out infinite !important;
+}
+
+@keyframes criticalGlow {
+    0%, 100% { 
+        border-color: #ef4444;
+        box-shadow: 
+            0 4px 20px rgba(239, 68, 68, 0.3),
+            inset 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    50% { 
+        border-color: #f87171;
+        box-shadow: 
+            0 4px 25px rgba(239, 68, 68, 0.5),
+            inset 0 0 20px rgba(0, 0, 0, 0.3);
+    }
 }
 
 @keyframes waterWave {
     0% { transform: translateX(-50%) translateY(0px); }
-    25% { transform: translateX(-25%) translateY(-2px); }
+    25% { transform: translateX(-25%) translateY(-1px); }
     50% { transform: translateX(0%) translateY(0px); }
-    75% { transform: translateX(25%) translateY(-2px); }
+    75% { transform: translateX(25%) translateY(-1px); }
     100% { transform: translateX(50%) translateY(0px); }
 }
 
 @keyframes waterShimmer {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.7; }
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.4; }
 }
