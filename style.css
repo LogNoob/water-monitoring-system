@@ -411,10 +411,10 @@ main {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: {waterValue}%;
+    height: 0; /* Initial height */
     background: linear-gradient(to top, rgba(33, 150, 243, 0.9), rgba(100, 181, 246, 0.7));
+    transition: height 1s ease-in-out; /* Smooth transition for height changes */
 }
-
 
 .water-level::before {
     content: '';
