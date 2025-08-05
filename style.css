@@ -396,44 +396,89 @@ main {
     background: linear-gradient(90deg, var(--danger-color) 0%, #f87171 100%);
 }
 
-/* 水槽樣式 - 修正水位顯示方向 */
+/* 找到你的 style.css 中的這兩個部分並替換成下面的代碼 */
+
 .water-tank {
-    width: 80px;
-    height: 120px;
-    border: 3px solid #334155;
-    border-radius: 8px;
-    margin: 20px auto 0;
+    width: 240px;
+    height: 320px;
+    border: 4px solid #333;
+    border-radius: 24px;
+    margin: 2rem auto;
     position: relative;
-    background: #f1f5f9;
     overflow: hidden;
-    display: flex;              /* 新增 */
-    align-items: flex-end;      /* 新增：關鍵修正，讓水位從底部開始 */
+    background: linear-gradient(180deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.8),
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: flex-end;
 }
 
 .water-level {
     width: 100%;
-    background: linear-gradient(to top, #3b82f6, #60a5fa);
-    border-radius: 0 0 5px 5px;
-    transition: height 0.5s ease;
+    background: linear-gradient(180deg, 
+        #1e90ff 0%,     /* 頂部淺藍 */
+        #0080ff 25%,    /* 藍色 */
+        #0066cc 50%,    /* 深藍 */
+        #004499 75%,    /* 更深藍 */
+        #003366 100%    /* 底部最深藍 */
+    );
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    /* 移除任何 top 或 bottom 定位 */
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 
+        0 -4px 20px rgba(30, 144, 255, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
 .water-level::before {
     content: '';
     position: absolute;
+    top: -4px;
+    left: -50%;
+    width: 200%;
+    height: 8px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(135, 206, 250, 0.8), 
+        rgba(255, 255, 255, 0.6), 
+        rgba(135, 206, 250, 0.8), 
+        transparent
+    );
+    animation: waterWave 4s linear infinite;
+    border-radius: 50px;
+}
+
+.water-level::after {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px 10px 0 0;
-    animation: wave 2s ease-in-out infinite;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.1) 25%, 
+        transparent 50%, 
+        rgba(255, 255, 255, 0.1) 75%, 
+        transparent 100%
+    );
+    animation: waterShimmer 3s ease-in-out infinite;
 }
 
-@keyframes wave {
-    0%, 100% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
+@keyframes waterWave {
+    0% { transform: translateX(-50%) translateY(0px); }
+    25% { transform: translateX(-25%) translateY(-2px); }
+    50% { transform: translateX(0%) translateY(0px); }
+    75% { transform: translateX(25%) translateY(-2px); }
+    100% { transform: translateX(50%) translateY(0px); }
+}
+
+@keyframes waterShimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
 }
 
 .alerts-section {
