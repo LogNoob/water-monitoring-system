@@ -400,11 +400,25 @@ main {
     position: relative;
     width: 180px;
     height: 240px;
-    border: 3px solid var(--danger-color); /* 改成使用 --danger-color */
+    border: 3px solid var(--border-color); /* 默認邊框顏色 */
     border-radius: 20px;
     overflow: hidden;
     margin: 2rem auto;
     background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(30, 41, 59, 0.8) 100%);
+    transition: border-color 0.3s ease; /* 平滑過渡效果 */
+}
+
+/* 根據 data-status 改變邊框顏色 */
+#waterCard[data-status="status-normal"] .water-tank {
+    border-color: var(--success-color); /* 綠色，正常 */
+}
+
+#waterCard[data-status="status-warning"] .water-tank {
+    border-color: var(--warning-color); /* 黃色，警告 */
+}
+
+#waterCard[data-status="status-critical"] .water-tank {
+    border-color: var(--danger-color); /* 紅色，危險 */
 }
 
 .water-level {
