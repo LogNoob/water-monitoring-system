@@ -136,6 +136,7 @@ function updateDisplay(data) {
     `;
 
     elements.waterLevel.style.height = `${waterValue}%`;
+    elements.waterCard.dataset.status = waterStatus.class; // 設置 data-status 屬性
     elements.waterCard.classList.remove('status-normal', 'status-warning', 'status-critical');
     elements.waterCard.classList.add(waterStatus.class);
     
