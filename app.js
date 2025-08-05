@@ -30,16 +30,20 @@ let currentCountdown = 11;
 // Format timestamp
 function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
-    // Changed locale from 'zh-TW' to 'en-US' for English format
-    return date.toLocaleString('en-US', {
-        timeZone: 'Asia/Taipei', // Keep the timezone correct
+    // 使用 toLocaleString 取得格式化的時間字串
+    const formattedDate = date.toLocaleString('en-US', {
+        timeZone: 'Asia/Taipei', // 確保使用正確的時區
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
+        second: '2-digit',
+        hour12: true // 確保顯示 AM/PM
     });
+    
+    // 在格式化的時間字串後面加上 '(GMT+8)'
+    return formattedDate + ' (GMT+8)';
 }
 
 // Get status information
